@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddVideoActivity">
+    tools:context=".AddVideoActivity,.UpdateActivity">
 
 
     <TextView
@@ -33,7 +33,7 @@
 
     <EditText
         android:id="@+id/add_h"
-        android:layout_width="40dp"
+        android:layout_width="60dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
@@ -41,32 +41,38 @@
         android:hint="@string/blank"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:text="@string/zero"
+        android:textAlignment="viewEnd"
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/add_vid" />
 
     <EditText
         android:id="@+id/add_m"
-        android:layout_width="40dp"
+        android:layout_width="60dp"
         android:layout_height="40dp"
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="@string/blank"
+        android:importantForAutofill="no"
         android:inputType="number"
+        android:text="@string/zero"
+        android:textAlignment="viewEnd"
         app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/add_vid"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/add_vid" />
 
     <EditText
         android:id="@+id/add_s"
-        android:layout_width="40dp"
+        android:layout_width="60dp"
         android:layout_height="40dp"
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="@string/blank"
+        android:importantForAutofill="no"
         android:inputType="number"
+        android:text="@string/zero"
+        android:textAlignment="viewEnd"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/add_vid"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/add_vid" />
 
     <TextView
         android:id="@+id/textView4"

@@ -14,10 +14,9 @@ import android.widget.Toast;
 
 public class AddVideoActivity extends AppCompatActivity {
     private MyDB myDB;
-    private ItemAdapter mAdapter;
+    //private ItemAdapter mAdapter;
     private EditText addname,addvid,addH,addM,addS,addnote;
-    private TextView mTextViewAmount;
-    private int a;
+    private int amount;
     private Button addbutton;
 
     @Override
@@ -38,10 +37,10 @@ public class AddVideoActivity extends AppCompatActivity {
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 a = Integer.parseInt(addH.getText().toString())*3600000+
+                 amount = Integer.parseInt(addH.getText().toString())*3600000+
                         Integer.parseInt(addM.getText().toString())*60000+
                         Integer.parseInt(addS.getText().toString())*1000;
-                addItem(a);
+                addItem(amount);
             }
         });
     }

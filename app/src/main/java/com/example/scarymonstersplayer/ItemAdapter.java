@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.youtube.player.YouTubePlayer;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
     private Context mContext;
     private Cursor mCursor;
@@ -54,7 +56,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         @Override
         public boolean onLongClick(View v) {
-            Toast.makeText(mContext,"UwU",Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(mContext,UpdateActivity.class);
+            intent.putExtra("ID",new Long((int)itemView.getTag()));
+            mContext.startActivity(intent);
             return true;
         }
 
@@ -77,12 +82,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         amount = mCursor.getInt(mCursor.getColumnIndex(DBitem.KEY_SECOND));
         String note = mCursor.getString(mCursor.getColumnIndex(DBitem.KEY_NOTE));
         String VID = mCursor.getString(mCursor.getColumnIndex(DBitem.KEY_VID));
+        int id= mCursor.getInt(mCursor.getColumnIndex(DBitem.KEY_ID));
 
        holder.nameText.setText(name);
        holder.noteText.setText(note);
        holder.timeText.setText(parseTime(amount));
        holder.vidText.setText(VID);
        holder.realsec.setText(String.valueOf(amount));
+       holder.itemView.setTag(id);
 
     }
 

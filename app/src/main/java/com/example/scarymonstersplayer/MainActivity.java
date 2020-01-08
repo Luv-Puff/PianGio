@@ -1,6 +1,7 @@
 package com.example.scarymonstersplayer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,7 +44,7 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
     private boolean fullscreen;
     private YouTubePlayerView youTubePlayerView;
     public YouTubePlayer player;
-    private YouTubePlayer.OnInitializedListener MonInitializedListener;
+    //private YouTubePlayer.OnInitializedListener MonInitializedListener;
     private RecyclerView recyclerView;
     private String videoId = "2MtOpB5LlUA";// I, Giorno Giovanna, have a dream.
     private int second = 225000;// *piano sound*
@@ -67,6 +68,18 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ItemAdapter(this, myDB.getData());
         recyclerView.setAdapter(mAdapter);
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                removeItem(new Long((int)viewHolder.itemView.getTag()));
+            }
+        }).attachToRecyclerView(recyclerView);
 
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +172,11 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
         // 階段變更時
         super.onConfigurationChanged(newConfig);
         doLayout();
+    }
+
+    private void removeItem(long id) {
+        myDB.deleteData(id);
+        mAdapter.swapCursor(myDB.getData());
     }
 
 

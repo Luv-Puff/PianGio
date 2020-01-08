@@ -13,4 +13,5 @@
     <string name="blank" />
     <string name="videoName">Video Name:</string>
     <string name="note">Note:</string>
+    <string name="zero">0</string>
 </resources>

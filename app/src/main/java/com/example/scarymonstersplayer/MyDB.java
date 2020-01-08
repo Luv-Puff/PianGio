@@ -7,6 +7,7 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,6 +51,7 @@ public class MyDB extends SQLiteOpenHelper {
         cv.put(DBitem.KEY_NOTE,item.getNote());
 
         long result = db.insert(TABLE_NAME,null,cv);
+
         if (result==-1){
             return false;
         }else {
@@ -59,8 +61,25 @@ public class MyDB extends SQLiteOpenHelper {
 
     public Cursor getData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME +" ORDER BY "+DBitem.TIME_STAMP;
+        String query = "SELECT * FROM " + TABLE_NAME +" ORDER BY "+DBitem.TIME_STAMP+" DESC";
         Cursor data = db.rawQuery(query, null);
         return data;
+    }
+
+    public void deleteData(long id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String delete = "DELETE FROM " + TABLE_NAME +" WHERE "+DBitem.KEY_ID+" = "+id;
+        db.execSQL(delete);
+    }
+
+    public void updateData(long id,DBitem item){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + TABLE_NAME + " SET " +
+                DBitem.KEY_NAME + " = '" + item.getName() +"', "+
+                DBitem.KEY_VID + " = '" + item.getVid() +"', "+
+                DBitem.KEY_SECOND + " = " + item.getSecond() +", "+
+                DBitem.KEY_NOTE + " = '" + item.getNote() +
+                "' WHERE " + DBitem.KEY_ID + " = " + id ;
+        db.execSQL(query);
     }
 }
