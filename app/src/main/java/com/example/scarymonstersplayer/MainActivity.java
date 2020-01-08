@@ -1,9 +1,16 @@
 package com.example.scarymonstersplayer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -26,27 +33,50 @@ import static com.example.scarymonstersplayer.apikey.key;
 
 
 public class MainActivity extends YouTubeFailureRecoveryActivity implements YouTubePlayer.OnFullscreenListener {
-    private Button Playbutton;
+
+    //RetainedFragment retainedFragment ;
+    private MyDB myDB;
+    private ItemAdapter mAdapter;
+    private Button addbutton;
     private LinearLayout baseLayout ;
     private View otherViews ;
     private boolean fullscreen;
     private YouTubePlayerView youTubePlayerView;
-    private YouTubePlayer player;
+    public YouTubePlayer player;
     private YouTubePlayer.OnInitializedListener MonInitializedListener;
+    private RecyclerView recyclerView;
     private String videoId = "2MtOpB5LlUA";// I, Giorno Giovanna, have a dream.
     private int second = 225000;// *piano sound*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myDB = new MyDB(this);
+
         youTubePlayerView =  (YouTubePlayerView) findViewById(R.id.YoutubeView);
         baseLayout = findViewById(R.id.layout);
         otherViews =  findViewById(R.id.other_views);
-        Playbutton = findViewById(R.id.PlayButton);
+        addbutton = findViewById(R.id.add_video);
         youTubePlayerView.initialize(key, (YouTubePlayer.OnInitializedListener) this);
 
         doLayout();
+
+        recyclerView = findViewById(R.id.otherRecycler);
+        recyclerView.setHasFixedSize(true);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new ItemAdapter(this, myDB.getData());
+        recyclerView.setAdapter(mAdapter);
+
+        addbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(MainActivity.this,AddVideoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
     @Override
     public void onResume(){
@@ -126,9 +156,11 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        // 階段變更時
         super.onConfigurationChanged(newConfig);
         doLayout();
     }
+
 
 
 

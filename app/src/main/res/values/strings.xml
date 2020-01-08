@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">當心喬魯諾</string>
     <string name="PlayVideo">Play Vedio!</string>
+    <string name="final_project">期末專案</string>
+    <string name="add_newVideo">Add Video</string>
+    <string name="share_video">Share video</string>
+    <string name="textview">TextView</string>
+    <string name="Videoid">Youtube Video Id:</string>
+    <string name="startTime">Start Time:</string>
+    <string name="hour">h</string>
+    <string name="min">m</string>
+    <string name="sec">s</string>
+    <string name="blank" />
+    <string name="videoName">Video Name:</string>
+    <string name="note">Note:</string>
 </resources>

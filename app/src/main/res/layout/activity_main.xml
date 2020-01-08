@@ -22,14 +22,29 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="20dp"
-        >
+        android:padding="25dp">
+
 
         <Button
-            android:id="@+id/PlayButton"
+            android:id="@+id/share_video"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/PlayVideo" />
+            android:background="#3F51B5"
+            android:text="@string/share_video"
+            android:textColor="#FFFFFF" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/otherRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="400dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/add_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_newVideo" />
 
     </LinearLayout>
 </LinearLayout>
