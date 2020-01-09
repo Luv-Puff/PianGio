@@ -3,10 +3,13 @@ package com.example.scarymonstersplayer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
@@ -22,7 +25,7 @@ public class UpdateActivity extends AppCompatActivity {
     //private ItemAdapter mAdapter;
     private EditText addname,addvid,addH,addM,addS,addnote;
     private int amount;
-    private Button update,get_id;
+    private Button update;
     private Long updateID;
 
     @Override
@@ -34,29 +37,42 @@ public class UpdateActivity extends AppCompatActivity {
         myDB = new MyDB(this);
         updateID = getIntent().getLongExtra("ID",0);
 
+        Cursor cursor = myDB.getSingleItem(updateID);
+        cursor.moveToPosition(0);
+        int h = parsehour(cursor.getInt(cursor.getColumnIndex(DBitem.KEY_SECOND)));
+        int m = parsemin(cursor.getInt(cursor.getColumnIndex(DBitem.KEY_SECOND)));
+        int s = parsesec(cursor.getInt(cursor.getColumnIndex(DBitem.KEY_SECOND)));
+        String mName = cursor.getString(cursor.getColumnIndex(DBitem.KEY_NAME));
+        String mVid = cursor.getString(cursor.getColumnIndex(DBitem.KEY_VID));
+        String mNote = cursor.getString(cursor.getColumnIndex(DBitem.KEY_NOTE));
+
         addname = findViewById(R.id.add_name);
+        addname.setText(mName);
         addvid=findViewById(R.id.add_vid);
+        addvid.setText(mVid);
         addH = findViewById(R.id.add_h);
+        addH.setText(String.valueOf(h));
         addM = findViewById(R.id.add_m);
+        addM.setText(String.valueOf(m));
         addS = findViewById(R.id.add_s);
+        addS.setText(String.valueOf(s));
         addnote = findViewById(R.id.add_note);
+        addnote.setText(mNote);
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int h,m,s;
-                h = Integer.parseInt(addH.getText().toString())*3600000;
+                String new_vid = extractYTId(addvid.getText().toString());
+                if (!new_vid.equals("")){
+                    addvid.setText(new_vid);
+                }else{
+                    Toast.makeText(UpdateActivity.this, "Invalid String!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 amount = Integer.parseInt(addH.getText().toString())*3600000+
                         Integer.parseInt(addM.getText().toString())*60000+
                         Integer.parseInt(addS.getText().toString())*1000;
                 update(amount);
-            }
-        });
-        get_id=findViewById(R.id.get_ID);
-        get_id.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String new_vid = extractYTId(addvid.getText().toString());
-                addvid.setText(new_vid);
             }
         });
 
@@ -88,20 +104,42 @@ public class UpdateActivity extends AppCompatActivity {
         Matcher matcher = pattern.matcher(ytUrl);
         if (matcher.matches()){
             vId = matcher.group(1);
-        }
-        return vId;
-    }
-    public static String getTitle(String youtubeUrl) {
-        try {
-            if (youtubeUrl != null) {
-                URL embededURL = new URL("http://www.youtube.com/oembed?url=" + youtubeUrl + "&format=json");
-                return new JSONObject(IOUtils.toString(embededURL)).getString("title");
+            if (vId.length()==11){
+                return vId;
+            }else {
+                return "";
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }else if (ytUrl.length()==11){
+            return  ytUrl;
+        }else{
+            return "";
         }
-        return null;
     }
+    private int parsesec (int a){
+        return  (a%60000)/1000;
+
+
+    }
+    private int parsemin (int a){
+        int min;
+        if (a>=3600000){
+            min = (a%3600000)/60000;
+            return  min;
+        }else if (a >=60000){
+            min = a/60000;
+            return  min;
+        }else{
+            return  0;
+        }
+    }
+    private int parsehour (int a){
+        int hour;
+        if (a>=3600000){
+            hour = a/3600000;
+            return  hour;
+        }else{
+            return 0;
+        }
+    }
+
 }

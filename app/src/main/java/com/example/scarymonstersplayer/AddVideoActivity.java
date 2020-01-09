@@ -42,21 +42,29 @@ public class AddVideoActivity extends AppCompatActivity {
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String new_vid = extractYTId(addvid.getText().toString());
+                if (!new_vid.equals("")){
+                    addvid.setText(new_vid);
+                }else{
+                    Toast.makeText(AddVideoActivity.this, "Invalid String!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                  amount = Integer.parseInt(addH.getText().toString())*3600000+
                         Integer.parseInt(addM.getText().toString())*60000+
                         Integer.parseInt(addS.getText().toString())*1000;
                 addItem(amount);
             }
         });
-        get_id=findViewById(R.id.get_ID);
-        get_id.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String new_vid = extractYTId(addvid.getText().toString());
-                addvid.setText(new_vid);
-
-            }
-        });
+//        get_id=findViewById(R.id.get_ID);
+//        get_id.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String new_vid = extractYTId(addvid.getText().toString());
+//                addvid.setText(new_vid);
+//
+//            }
+//        });
 
     }
 
@@ -96,8 +104,17 @@ public class AddVideoActivity extends AppCompatActivity {
         Matcher matcher = pattern.matcher(ytUrl);
         if (matcher.matches()){
             vId = matcher.group(1);
+            if (vId.length()==11){
+                return vId;
+            }else {
+                return "";
+            }
+        }else if (ytUrl.length()==11){
+            return  ytUrl;
+        }else{
+            return "";
         }
-        return vId;
+
     }
 
 }

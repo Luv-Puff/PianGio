@@ -52,8 +52,8 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
     public YouTubePlayer player;
     //private YouTubePlayer.OnInitializedListener MonInitializedListener;
     private RecyclerView recyclerView;
-    public String videoId = "2MtOpB5LlUA";// I, Giorno Giovanna, have a dream.
-    public int second = 225000;// *piano sound*
+    public String videoId = "V79zSSDweUA";// I, Giorno Giovanna, have a dream.
+    public int second = 47000;// *piano sound*
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

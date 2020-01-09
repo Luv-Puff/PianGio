@@ -8,11 +8,25 @@
 
 
     <EditText
+        android:id="@+id/add_name"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="164dp"
+        android:ems="10"
+        android:hint="@string/blank"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:lines="3"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
         android:id="@+id/add_vid"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="228dp"
         android:ems="10"
         android:hint="@string/blank"
         android:importantForAutofill="no"
@@ -22,112 +36,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/add_name"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="100dp"
-        android:ems="10"
-        android:hint="@string/blank"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:lines="3"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="180dp"
-        android:text="@string/Videoid"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/add_m"
-        android:layout_width="60dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="@string/blank"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        android:text="@string/zero"
-        android:textAlignment="viewEnd"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/add_vid" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/min"
-        app:layout_constraintStart_toEndOf="@+id/add_m"
-        app:layout_constraintTop_toBottomOf="@+id/add_vid" />
-
-    <EditText
-        android:id="@+id/add_note"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="296dp"
-        android:ems="10"
-        android:hint="@string/blank"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:lines="10"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/add_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
-        android:text="@string/add_newVideo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/hour"
-        app:layout_constraintStart_toEndOf="@+id/add_h"
-        app:layout_constraintTop_toBottomOf="@+id/add_vid" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/sec"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/add_s"
-        app:layout_constraintTop_toBottomOf="@+id/add_vid" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="244dp"
-        android:text="@string/startTime"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
         android:id="@+id/add_s"
         android:layout_width="60dp"
         android:layout_height="40dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="@string/blank"
         android:importantForAutofill="no"
@@ -141,8 +53,8 @@
         android:id="@+id/add_h"
         android:layout_width="60dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="@string/blank"
         android:importantForAutofill="no"
@@ -152,35 +64,112 @@
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/add_vid" />
 
+    <EditText
+        android:id="@+id/add_m"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/blank"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:text="@string/zero"
+        android:textAlignment="viewEnd"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/add_vid" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/min"
+        app:layout_constraintStart_toEndOf="@+id/add_m"
+        app:layout_constraintTop_toBottomOf="@+id/add_vid" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/sec"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/add_s"
+        app:layout_constraintTop_toBottomOf="@+id/add_vid" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/hour"
+        app:layout_constraintStart_toEndOf="@+id/add_h"
+        app:layout_constraintTop_toBottomOf="@+id/add_vid" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="47dp"
         android:layout_height="18dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="308dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="372dp"
         android:text="@string/note"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="308dp"
+        android:text="@string/startTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="424dp"
+        android:text="@string/add_newVideo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/add_note"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="360dp"
+        android:ems="10"
+        android:hint="@string/blank"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:lines="10"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="180dp"
         android:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/get_ID"
-        android:layout_width="80dp"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
-        android:text="@string/get_id_and_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/add_vid"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="244dp"
+        android:text="@string/Videoid"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -65,6 +65,13 @@ public class MyDB extends SQLiteOpenHelper {
         Cursor data = db.rawQuery(query, null);
         return data;
     }
+    public Cursor getSingleItem(Long id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME +" WHERE " + DBitem.KEY_ID + " = " + id;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
 
     public void deleteData(long id){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -82,4 +89,5 @@ public class MyDB extends SQLiteOpenHelper {
                 "' WHERE " + DBitem.KEY_ID + " = " + id ;
         db.execSQL(query);
     }
+
 }
