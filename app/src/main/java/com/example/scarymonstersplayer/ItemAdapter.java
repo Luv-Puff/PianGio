@@ -48,9 +48,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         public void onClick(View v) {
             MainActivity m = (MainActivity) mContext;
             String vid = vidText.getText().toString();
-            int Realsec = Integer.parseInt(realsec.getText().toString());
+            m.videoId = vid;
+            m.second = Integer.parseInt(realsec.getText().toString());
             //Toast.makeText(mContext,vid + amount,Toast.LENGTH_LONG).show();
-            m.player.cueVideo(vid,Realsec);
+            m.player.cueVideo(m.videoId,m.second);
 
         }
 

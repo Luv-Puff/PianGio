@@ -6,18 +6,23 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class AddVideoActivity extends AppCompatActivity {
     private MyDB myDB;
     //private ItemAdapter mAdapter;
     private EditText addname,addvid,addH,addM,addS,addnote;
     private int amount;
-    private Button addbutton;
+    private Button addbutton,get_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,16 @@ public class AddVideoActivity extends AppCompatActivity {
                 addItem(amount);
             }
         });
+        get_id=findViewById(R.id.get_ID);
+        get_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String new_vid = extractYTId(addvid.getText().toString());
+                addvid.setText(new_vid);
+
+            }
+        });
+
     }
 
     private void addItem(int mAmount) {
@@ -72,4 +87,17 @@ public class AddVideoActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    public static String extractYTId(String ytUrl) {
+        String vId = null;
+        Pattern pattern = Pattern.compile(
+                "^https?://.*(?:youtu.be/|v/|u/\\w/|embed/|watch?v=)([^#&?]*).*$",
+                Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(ytUrl);
+        if (matcher.matches()){
+            vId = matcher.group(1);
+        }
+        return vId;
+    }
+
 }

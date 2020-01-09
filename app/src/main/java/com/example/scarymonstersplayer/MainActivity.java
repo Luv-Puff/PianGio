@@ -5,13 +5,19 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -38,7 +44,7 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
     //RetainedFragment retainedFragment ;
     private MyDB myDB;
     private ItemAdapter mAdapter;
-    private Button addbutton;
+    private Button addbutton,shareButton;
     private LinearLayout baseLayout ;
     private View otherViews ;
     private boolean fullscreen;
@@ -46,12 +52,34 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
     public YouTubePlayer player;
     //private YouTubePlayer.OnInitializedListener MonInitializedListener;
     private RecyclerView recyclerView;
-    private String videoId = "2MtOpB5LlUA";// I, Giorno Giovanna, have a dream.
-    private int second = 225000;// *piano sound*
+    public String videoId = "2MtOpB5LlUA";// I, Giorno Giovanna, have a dream.
+    public int second = 225000;// *piano sound*
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ConnectivityManager mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+
+        if(mNetworkInfo != null)
+        {
+
+        }else {
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("警告:");
+            alertDialog.setMessage("沒有連線，八成是國家機器又開始動了");
+            alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE,"重新確認連線", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+
+                }
+            });
+
+            alertDialog.show();
+        }
+
         myDB = new MyDB(this);
 
         youTubePlayerView =  (YouTubePlayerView) findViewById(R.id.YoutubeView);
@@ -88,6 +116,21 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
                 startActivity(intent);
             }
         });
+        shareButton = findViewById(R.id.share_video);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String extraLink = "https://youtu.be/"+videoId+"?t="+second/1000;
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, extraLink);
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+            }
+        });
+
     }
 
 
