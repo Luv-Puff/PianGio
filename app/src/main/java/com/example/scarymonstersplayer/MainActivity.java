@@ -34,6 +34,8 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
+import java.util.Collections;
+
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static android.widget.ListPopupWindow.MATCH_PARENT;
 import static com.example.scarymonstersplayer.apikey.key;
@@ -96,11 +98,14 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ItemAdapter(this, myDB.getData());
         recyclerView.setAdapter(mAdapter);
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP| ItemTouchHelper.DOWN|ItemTouchHelper.START|ItemTouchHelper.END,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    int pos_d = viewHolder.getAdapterPosition();
+                    int pos_t = target.getAdapterPosition();
+                    swap(new Long((int)viewHolder.itemView.getTag()),new Long((int)target.itemView.getTag()));
+                return true;
             }
 
             @Override
@@ -156,6 +161,12 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
         player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
         player.setOnFullscreenListener(this);
         if (!wasRestored) {
+            Cursor newcursor = myDB.getData();
+            if (newcursor.getCount()!=0){
+                newcursor.moveToPosition(0);
+                videoId = newcursor.getString(newcursor.getColumnIndex(DBitem.KEY_VID));
+                second = newcursor.getInt(newcursor.getColumnIndex(DBitem.KEY_SECOND));
+            }
             player.cueVideo(videoId,second);
         }
     }
@@ -219,6 +230,11 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
 
     private void removeItem(long id) {
         myDB.deleteData(id);
+        mAdapter.swapCursor(myDB.getData());
+    }
+
+    private void swap(long d,long t){
+        myDB.swapData(d,t);
         mAdapter.swapCursor(myDB.getData());
     }
 

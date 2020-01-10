@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Handler;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -30,7 +31,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        public TextView nameText , noteText, timeText,vidText,realsec;
+        public TextView nameText , noteText, timeText,vidText,realsec;boolean doubleTap = false;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -46,6 +47,18 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         @Override
         public void onClick(View v) {
+            if (doubleTap){
+                Intent intent = new Intent(mContext,UpdateActivity.class);
+                intent.putExtra("ID",new Long((int)itemView.getTag()));
+                mContext.startActivity(intent);
+            }
+            doubleTap = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleTap=false;
+                }
+            }, 2000);
             MainActivity m = (MainActivity) mContext;
             String vid = vidText.getText().toString();
             m.videoId = vid;
@@ -55,14 +68,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         }
 
+
         @Override
         public boolean onLongClick(View v) {
 
-            Intent intent = new Intent(mContext,UpdateActivity.class);
-            intent.putExtra("ID",new Long((int)itemView.getTag()));
-            mContext.startActivity(intent);
-            return true;
+//            Intent intent = new Intent(mContext,UpdateActivity.class);
+//            intent.putExtra("ID",new Long((int)itemView.getTag()));
+//            mContext.startActivity(intent);
+            return false;
         }
+
 
     }
 

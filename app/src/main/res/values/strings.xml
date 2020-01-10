@@ -5,7 +5,7 @@
     <string name="add_newVideo">Add Video</string>
     <string name="share_video">Share This Video</string>
     <string name="textview">TextView</string>
-    <string name="Videoid">Youtube Video Id:</string>
+    <string name="Videoid">Youtube Video URL:</string>
     <string name="startTime">Start Time:</string>
     <string name="hour">h</string>
     <string name="min">m</string>
@@ -19,5 +19,6 @@
     <string name="get_name">GET VIDEO NAME</string>
     <string name="internet_warn">警告:沒有網路，疑似是國家機器動起來了</string>
     <string name="icon">icon</string>
-    <string name="Hant">韓市長提醒您:左右滑動可以刪除項目，長按項目可以編輯該項目!</string>
+    <string name="Hant">韓市長提醒您:左右滑動可以刪除項目，雙擊項目可以編輯該項目!</string>
+    <string name="or_v">or video ID</string>
 </resources>

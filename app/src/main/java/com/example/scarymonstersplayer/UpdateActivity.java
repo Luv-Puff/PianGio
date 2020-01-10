@@ -99,7 +99,7 @@ public class UpdateActivity extends AppCompatActivity {
     public static String extractYTId(String ytUrl) {
         String vId = null;
         Pattern pattern = Pattern.compile(
-                "^https?://.*(?:youtu.be/|v/|u/\\w/|embed/|watch?v=)([^#&?]*).*$",
+                "https?://(?:[0-9A-Z-]+\\.)?(?:youtu\\.be/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|</a>))[?=&+%\\w]*",
                 Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(ytUrl);
         if (matcher.matches()){

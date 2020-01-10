@@ -50,21 +50,12 @@ public class AddVideoActivity extends AppCompatActivity {
                     return;
                 }
 
-                 amount = Integer.parseInt(addH.getText().toString())*3600000+
+                amount = Integer.parseInt(addH.getText().toString())*3600000+
                         Integer.parseInt(addM.getText().toString())*60000+
                         Integer.parseInt(addS.getText().toString())*1000;
                 addItem(amount);
             }
         });
-//        get_id=findViewById(R.id.get_ID);
-//        get_id.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String new_vid = extractYTId(addvid.getText().toString());
-//                addvid.setText(new_vid);
-//
-//            }
-//        });
 
     }
 
@@ -99,10 +90,10 @@ public class AddVideoActivity extends AppCompatActivity {
     public static String extractYTId(String ytUrl) {
         String vId = null;
         Pattern pattern = Pattern.compile(
-                "^https?://.*(?:youtu.be/|v/|u/\\w/|embed/|watch?v=)([^#&?]*).*$",
+                "https?://(?:[0-9A-Z-]+\\.)?(?:youtu\\.be/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|</a>))[?=&+%\\w]*",
                 Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(ytUrl);
-        if (matcher.matches()){
+        if (matcher.find()){
             vId = matcher.group(1);
             if (vId.length()==11){
                 return vId;
