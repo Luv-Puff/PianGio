@@ -51,6 +51,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 Intent intent = new Intent(mContext,UpdateActivity.class);
                 intent.putExtra("ID",new Long((int)itemView.getTag()));
                 mContext.startActivity(intent);
+                //((Activity)mContext).finish();
             }
             doubleTap = true;
             new Handler().postDelayed(new Runnable() {
@@ -65,7 +66,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             m.second = Integer.parseInt(realsec.getText().toString());
             //Toast.makeText(mContext,vid + amount,Toast.LENGTH_LONG).show();
             m.player.cueVideo(m.videoId,m.second);
-
+            m.nowpos = Integer.parseInt(String.valueOf(this.getAdapterPosition()));
         }
 
 
@@ -127,6 +128,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     }
 
     private String parseTime(int a){
+        if (a==0){
+            return "";
+        }
         int hour,min;
         int sec = (a%60000)/1000;
         if (a>=3600000){

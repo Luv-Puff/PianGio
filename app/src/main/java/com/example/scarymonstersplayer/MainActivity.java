@@ -19,6 +19,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -34,7 +36,10 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static android.widget.ListPopupWindow.MATCH_PARENT;
@@ -56,6 +61,11 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
     private RecyclerView recyclerView;
     public String videoId = "V79zSSDweUA";// I, Giorno Giovanna, have a dream.
     public int second = 47000;// *piano sound*
+    List<List<Long>> numlist = new ArrayList<>();
+    public int nowpos = 0;
+    private Switch aSwitch;
+//    ArrayList<DBitem> list = new ArrayList<>();
+//    ArrayList<Integer> numlist = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,14 +108,27 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ItemAdapter(this, myDB.getData());
         recyclerView.setAdapter(mAdapter);
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP| ItemTouchHelper.DOWN|ItemTouchHelper.START|ItemTouchHelper.END,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
                 public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    List<Integer> aListData = new ArrayList<Integer>();
                     int pos_d = viewHolder.getAdapterPosition();
                     int pos_t = target.getAdapterPosition();
-                    swap(new Long((int)viewHolder.itemView.getTag()),new Long((int)target.itemView.getTag()));
-                return true;
+                    if (nowpos == pos_d){
+                        nowpos = pos_t;
+                    }else if( nowpos ==pos_t){
+                        nowpos = pos_d;
+                    }
+                    recyclerView.getAdapter().notifyItemMoved(pos_d,pos_t);
+                    List<Long> anewlist = new ArrayList<>();
+                    anewlist.add(new Long((int)viewHolder.itemView.getTag()));
+                    anewlist.add(new Long((int)target.itemView.getTag()));
+                    numlist.add(anewlist);
+                    //numlist.indexOf()
+                    //swap(new Long((int)viewHolder.itemView.getTag()),new Long((int)target.itemView.getTag()));
+                return false;
             }
 
             @Override
@@ -135,6 +158,8 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
                 startActivity(shareIntent);
             }
         });
+        aSwitch = findViewById(R.id.autoPlay);
+
 
     }
 
@@ -154,13 +179,15 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
     }
 
     @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer player,
                                         boolean wasRestored) {
         this.player = player;
         // Specify that we want to handle fullscreen behavior ourselves.
         player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
         player.setOnFullscreenListener(this);
         if (!wasRestored) {
+
+
             Cursor newcursor = myDB.getData();
             if (newcursor.getCount()!=0){
                 newcursor.moveToPosition(0);
@@ -169,6 +196,61 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
             }
             player.cueVideo(videoId,second);
         }
+        player.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+            @Override
+            public void onLoading() {
+
+            }
+
+            @Override
+            public void onLoaded(String s) {
+
+            }
+
+            @Override
+            public void onAdStarted() {
+
+            }
+
+            @Override
+            public void onVideoStarted() {
+
+            }
+
+            @Override
+            public void onVideoEnded() {
+                if (aSwitch.isChecked()){
+                    Toast.makeText(getApplicationContext(), "Next video will start in 5 seconds", Toast.LENGTH_LONG).show();
+                    Log.d("test","$"+nowpos);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                            if (manager.getChildCount()<=nowpos+1){
+
+                            }else{
+                                View view = manager.findViewByPosition(nowpos+1);
+                                Cursor nextcursor = myDB.getSingleItem(new Long((int)view.getTag()));
+                                if (nextcursor.getCount()!=0){
+                                    nextcursor.moveToPosition(0);
+                                    videoId = nextcursor.getString(nextcursor.getColumnIndex(DBitem.KEY_VID));
+                                    second = nextcursor.getInt(nextcursor.getColumnIndex(DBitem.KEY_SECOND));
+                                }
+                                player.loadVideo(videoId,second);
+                                nowpos++;
+                            }
+                        }
+                    }, 5000);
+                }
+
+            }
+
+            @Override
+            public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+            }
+        });
+
     }
 
     @Override
@@ -238,7 +320,20 @@ public class MainActivity extends YouTubeFailureRecoveryActivity implements YouT
         mAdapter.swapCursor(myDB.getData());
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        for (List<Long> list :numlist){
+            swap(list.get(0),list.get(1));
+        }
+        numlist = new ArrayList<>();
+    }
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        onPause();
+        finishAffinity();
+        return;
+    }
 }

@@ -60,7 +60,7 @@ public class AddVideoActivity extends AppCompatActivity {
     }
 
     private void addItem(int mAmount) {
-        if (addname.getText().toString().trim().length() == 0 || mAmount == 0||addvid.getText().toString().trim().length() == 0) {
+        if (addname.getText().toString().trim().length() == 0 ||addvid.getText().toString().trim().length() == 0) {
             return;
         }
 

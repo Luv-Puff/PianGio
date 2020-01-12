@@ -21,4 +21,5 @@
     <string name="icon">icon</string>
     <string name="Hant">韓市長提醒您:左右滑動可以刪除項目，雙擊項目可以編輯該項目!</string>
     <string name="or_v">or video ID</string>
+    <string name="autoPlay">Auto Play  </string>
 </resources>

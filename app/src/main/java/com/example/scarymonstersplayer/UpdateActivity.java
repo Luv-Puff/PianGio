@@ -78,7 +78,7 @@ public class UpdateActivity extends AppCompatActivity {
 
     }
     private void update(int mAmount){
-        if (addname.getText().toString().trim().length() == 0 || mAmount == 0||addvid.getText().toString().trim().length() == 0) {
+        if (addname.getText().toString().trim().length() == 0 ||addvid.getText().toString().trim().length() == 0) {
             return;
         }
 
@@ -88,6 +88,7 @@ public class UpdateActivity extends AppCompatActivity {
         item.setSecond(mAmount);
         item.setNote(addnote.getText().toString());
         myDB.updateData(updateID,item);
+        Toast.makeText(this, "Video wad updated!", Toast.LENGTH_LONG).show();
         returntomain();
 
     }

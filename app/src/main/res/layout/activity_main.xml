@@ -5,16 +5,15 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
 
     <view
         android:id="@+id/YoutubeView"
         class="com.google.android.youtube.player.YouTubePlayerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/other_views"
@@ -22,7 +21,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="25dp">
+        android:padding="25dp"
+        android:weightSum="1">
 
 
         <Button
@@ -33,16 +33,23 @@
             android:text="@string/share_video"
             android:textColor="#FFFFFF" />
 
+        <Switch
+            android:id="@+id/autoPlay"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:gravity="center_vertical|end"
+            android:text="@string/autoPlay" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/otherRecycler"
             android:layout_width="match_parent"
-            android:layout_height="400dp">
+            android:layout_height="250dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
             android:id="@+id/textView8"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/Hant"
             android:textAlignment="center"
